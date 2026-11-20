@@ -37,7 +37,7 @@
   <div class="shell">
     <aside class="sidebar">
       <a class="brand" href="/">
-        <span class="logo"><img src="/logo.svg" alt="bae6 logo" /></span>
+        <span class="logo"><img src="/logo.png" alt="bae6 logo" /></span>
         <span class="wordmark">bae6<span>.</span>console</span>
       </a>
       <nav aria-label="Main">

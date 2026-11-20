@@ -79,7 +79,7 @@ a:hover {
 }
 .logo {
   display: block;
-  background: #fff;
+  background: #faf9f9;
   border-radius: var(--radius);
   padding: 10px 12px;
 }
