@@ -1,5 +1,6 @@
 <script lang="ts">
   import { compact, usd } from "$lib/format";
+  import Concentration from "$lib/Concentration.svelte";
   import Sparkline from "$lib/Sparkline.svelte";
   let { data } = $props();
 
@@ -49,6 +50,10 @@
     <select name="by" aria-label="Break down by">
       {#each groups as [value, label]}<option {value} selected={value === data.by}>By {label.toLowerCase()}</option>{/each}
     </select>
+    <select name="measure" aria-label="Distribution of">
+      <option value="tokens" selected={data.measure === "tokens"}>Users by tokens</option>
+      <option value="cost" selected={data.measure === "cost"}>Users by spend</option>
+    </select>
     <button type="submit">Show</button>
   </form>
   {#if data.filterError}<p role="alert">{data.filterError}</p>{/if}
@@ -73,6 +78,13 @@
     {/each}
   </div>
 {/if}
+
+<h2>Concentration across users</h2>
+<Concentration
+  users={data.distribution.users}
+  noun={data.measure === "cost" ? "spend" : "tokens"}
+  points={data.distribution.data}
+/>
 
 <h2>By {groups.find(([v]) => v === data.by)?.[1].toLowerCase()}</h2>
 <div class="panel">

@@ -18,6 +18,8 @@ test("totals and group rows are rounded for reading", () => {
     data: {
       days: 30,
       by: "taskType",
+      measure: "tokens",
+      distribution: { users: 0, total: "0", data: [] },
       series: [{ day: "2026-03-30", ...m() }],
       groups: [{ key: "summarization", ...m() }],
       truncated: false,
@@ -34,6 +36,8 @@ test("a truncated breakdown says so", () => {
     data: {
       days: 30,
       by: "model",
+      measure: "tokens",
+      distribution: { users: 0, total: "0", data: [] },
       series: [],
       groups: [],
       truncated: true,
