@@ -52,6 +52,7 @@
     {/if}
   </div>
   <form method="POST" action={`?/${k.kind}`} class="filters">
+    <input type="hidden" name="create" value="yes" />
     <input name="id" placeholder="Id, {k.hint}" aria-label={`New ${k.title.toLowerCase()} id`} required maxlength="48" />
     <input name="name" placeholder="Name" aria-label={`New ${k.title.toLowerCase()} name`} required maxlength="64" />
     <button type="submit">Add</button>

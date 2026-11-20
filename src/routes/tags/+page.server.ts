@@ -20,10 +20,23 @@ export const load: PageServerLoad = async ({ locals }) => {
 const action =
   (kind: TagKind): Actions[string] =>
   async ({ locals, request }) => {
+    const form = await request.formData();
+    const existing =
+      form.get("create") === "yes"
+        ? (
+            await callApi<{ data: Tag[] }>(
+              locals,
+              `/v1/${kind}`,
+              undefined,
+              "ai",
+            )
+          ).data.map((t) => t.id)
+        : [];
     const result = await changeTag(
       (path, init) => mutate(locals, path, init, "ai"),
       kind,
-      await request.formData(),
+      form,
+      existing,
     );
     return result.status === 200 ? result : fail(result.status, result);
   };

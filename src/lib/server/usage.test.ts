@@ -81,3 +81,29 @@ test("changeTag reports the gateway's refusal", async () => {
     { status: 403, error: "Missing scope ai:usage:admin." },
   );
 });
+
+test("changeTag refuses to add an id that already exists", async () => {
+  const r = await changeTag(
+    never,
+    "domains",
+    form({ id: "legal", name: "Law", create: "yes" }),
+    ["legal"],
+  );
+  assert.equal(r.status, 409);
+});
+
+test("changeTag still renames an existing id from the list", async () => {
+  const calls: string[] = [];
+  const mutator: Mutator = async (path, init) => {
+    calls.push(`${init.method} ${path}`);
+    return { ok: true, auditEventId: null, body: null };
+  };
+  const r = await changeTag(
+    mutator,
+    "domains",
+    form({ id: "legal", name: "Law" }),
+    ["legal"],
+  );
+  assert.equal(r.status, 200);
+  assert.deepEqual(calls, ["PUT /v1/domains/legal"]);
+});

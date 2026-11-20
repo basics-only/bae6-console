@@ -53,6 +53,7 @@ export async function changeTag(
   mutator: Mutator,
   kind: TagKind,
   form: FormData,
+  existing: readonly string[] = [],
 ): Promise<TagResult> {
   const id = String(form.get("id") ?? "");
   if (!TAG_ID.test(id) || id === "untagged") {
@@ -60,6 +61,12 @@ export async function changeTag(
       status: 400,
       error:
         "The id is lowercase letters, digits and hyphens, up to 48 characters.",
+    };
+  }
+  if (form.get("create") === "yes" && existing.includes(id)) {
+    return {
+      status: 409,
+      error: `${id} already exists. Rename it from the list instead.`,
     };
   }
   const path = `/v1/${kind}/${id}`;
