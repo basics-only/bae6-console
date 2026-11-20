@@ -10,9 +10,12 @@
   );
 </script>
 
-<h1>Audit log</h1>
+<div class="page-head">
+  <h1>Audit log</h1>
+  <p>Every administrative change, newest first. Times are UTC.</p>
+</div>
 
-<form method="GET">
+<form method="GET" class="filters">
   <input name="application" value={data.filters.application} placeholder="Application" aria-label="Application" />
   <input name="actor" value={data.filters.actor} placeholder="Actor" aria-label="Actor" />
   <input name="action" value={data.filters.action} placeholder="Action, e.g. models.rollback" aria-label="Action" />
@@ -22,26 +25,28 @@
 </form>
 {#if data.filterError}<p role="alert">{data.filterError}</p>{/if}
 
-{#if data.items.length === 0}
-  <p>No audit events.</p>
-{:else}
-  <table>
-    <thead>
-      <tr><th>ID</th><th>Time</th><th>Actor</th><th>Action</th><th>Application</th><th>Request</th></tr>
-    </thead>
-    <tbody>
-      {#each data.items as e (e.id)}
-        <tr>
-          <td>{e.id}</td>
-          <td>{e.time}</td>
-          <td>{e.actor}</td>
-          <td>{e.action}</td>
-          <td>{e.application ?? ""}</td>
-          <td>{e.requestId ?? ""}</td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
-{/if}
+<div class="panel">
+  {#if data.items.length === 0}
+    <p class="empty">No audit events.</p>
+  {:else}
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Time</th><th>Actor</th><th>Action</th><th>Application</th><th>Request</th></tr>
+      </thead>
+      <tbody>
+        {#each data.items as e (e.id)}
+          <tr>
+            <td class="id">{e.id}</td>
+            <td>{e.time}</td>
+            <td>{e.actor}</td>
+            <td class="id">{e.action}</td>
+            <td>{e.application ?? ""}</td>
+            <td class="id">{e.requestId ?? ""}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  {/if}
+</div>
 
-{#if nextHref}<a href={nextHref}>Next page</a>{/if}
+{#if nextHref}<div class="pager"><a href={nextHref}>Next page</a></div>{/if}
