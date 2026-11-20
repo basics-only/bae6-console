@@ -50,3 +50,27 @@ test("a failed lookup is shown instead of an empty list", async () => {
 
   expect(await screen.findByText("Suggestions unavailable.")).toBeVisible();
 });
+
+test("Enter after a failed lookup leaves the typed value alone", async () => {
+  const fetchMock = vi
+    .fn()
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ items: ["crm-prod", "crm-dev"] }),
+    })
+    .mockResolvedValueOnce({ ok: false, status: 502 });
+  vi.stubGlobal("fetch", fetchMock);
+  render(Page, { form: null } as never);
+
+  const input = screen.getByLabelText("Application");
+  await fireEvent.input(input, { target: { value: "crm" } });
+  await screen.findAllByRole("option");
+  await fireEvent.keyDown(input, { key: "ArrowDown" });
+  await fireEvent.input(input, { target: { value: "crm-x" } });
+  await screen.findByText("Suggestions unavailable.");
+
+  const notCancelled = await fireEvent.keyDown(input, { key: "Enter" });
+
+  expect(notCancelled).toBe(true);
+  expect(input).toHaveValue("crm-x");
+});

@@ -27,6 +27,7 @@
 
   async function load() {
     controller?.abort();
+    active = -1;
     if (field !== "application" && !application.trim()) {
       items = [];
       note = "Choose an application first.";
@@ -42,7 +43,6 @@
       if (!res.ok) throw new Error(String(res.status));
       items = ((await res.json()) as { items: string[] }).items;
       note = "";
-      active = -1;
     } catch (e) {
       if ((e as Error).name === "AbortError") return;
       items = [];
@@ -67,9 +67,10 @@
     } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       if (!open) return ask();
       e.preventDefault();
+      if (items.length === 0) return;
       const step = e.key === "ArrowDown" ? 1 : -1;
       active = (active + step + items.length) % items.length;
-    } else if (e.key === "Enter" && open && active >= 0) {
+    } else if (e.key === "Enter" && open && items[active] !== undefined) {
       e.preventDefault();
       choose(items[active]);
     }
