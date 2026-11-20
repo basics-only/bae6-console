@@ -9,7 +9,7 @@ export interface Distribution {
 }
 
 export interface ConcentrationDay {
-  day: string;
+  month: string;
   users: number;
   top5: number;
   top10: number;

@@ -1,6 +1,6 @@
 <script lang="ts">
   interface Day {
-    day: string;
+    month: string;
     users: number;
     top5: number;
     top10: number;
@@ -21,7 +21,7 @@
     { key: "top20", label: "Top 20%", color: "#b45309" },
   ] as const;
 
-  const times = $derived(points.map((p) => Date.parse(p.day)));
+  const times = $derived(points.map((p) => Date.parse(p.month)));
   const first = $derived(times[0] ?? 0);
   const span = $derived(Math.max((times.at(-1) ?? 0) - first, 1));
   const x = (t: number) => LEFT + ((t - first) / span) * (W - LEFT - RIGHT);
@@ -50,21 +50,21 @@
   <figure>
     <figcaption>
       {#if picked}
-        <b>{picked.day}</b>, {picked.users} users:
+        <b>{picked.month}</b>, {picked.users} users:
         {#each lines as l}
           <span style:color={l.color}>{l.label.toLowerCase()} use <b>{pct(picked[l.key])}</b></span>{" "}
         {/each}
       {:else}
         <span class="legend">
           {#each lines as l}<span style:color={l.color}>{l.label}</span>{" "}{/each}
-          of users, share of {noun} per day
+          of users, share of {noun} per month
         </span>
       {/if}
     </figcaption>
     <svg
       viewBox={`0 0 ${W} ${H}`}
       role="img"
-      aria-label={`Share of ${noun} used by the top 5%, 10% and 20% of users each day`}
+      aria-label={`Share of ${noun} used by the top 5%, 10% and 20% of users each month`}
       onmousemove={track}
       onmouseleave={() => (hover = null)}
     >
@@ -72,9 +72,9 @@
         <line class:zero={t === 0} x1={LEFT} x2={W - RIGHT} y1={y(t)} y2={y(t)} />
         <text class="tick" x={LEFT - 5} y={y(t) + 3} text-anchor="end">{pct(t)}</text>
       {/each}
-      <text class="tick" x={x(first)} y={H - 8} text-anchor="start">{points[0].day}</text>
+      <text class="tick" x={x(first)} y={H - 8} text-anchor="start">{points[0].month}</text>
       {#if points.length > 1}
-        <text class="tick" x={W - RIGHT} y={H - 8} text-anchor="end">{points.at(-1)?.day}</text>
+        <text class="tick" x={W - RIGHT} y={H - 8} text-anchor="end">{points.at(-1)?.month}</text>
       {/if}
       {#each lines as l}
         {#if points.length === 1}
