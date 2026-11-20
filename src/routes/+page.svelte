@@ -5,6 +5,8 @@
       ["authz", "/applications", "Applications", "Who owns each application and which model governs it."],
       ["authz", "/audit", "Audit log", "Every administrative change, with actor and time."],
       ["authz", "/explorer", "Access explorer", "Check whether a principal holds a relation on an object."],
+      ["ai", "/usage", "Usage", "Active users, spend and latency by organization, task type and domain."],
+      ["ai", "/tags", "Task types", "The task types and domains calls can be tagged with."],
       ["ai", "/feedback", "Feedback", "What users said about model answers."],
       ["evals", "/evals", "Eval runs", "Scored test runs and their failures."],
       ["agents", "/agents", "Agent runs", "What agents did, step by step."],
