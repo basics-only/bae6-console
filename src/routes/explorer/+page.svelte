@@ -1,6 +1,11 @@
 <script lang="ts">
   import Badge from "$lib/Badge.svelte";
+  import Suggest from "$lib/Suggest.svelte";
   let { form } = $props();
+  let application = $state(form?.query?.application ?? "");
+  let principal = $state(form?.query?.principal ?? "");
+  let relation = $state(form?.query?.relation ?? "");
+  let object = $state(form?.query?.object ?? "");
 </script>
 
 <div class="page-head">
@@ -9,10 +14,10 @@
 </div>
 
 <form method="POST" action="?/check" class="filters">
-  <input name="application" value={form?.query?.application ?? ""} placeholder="Application, e.g. crm-prod" aria-label="Application" required />
-  <input name="principal" value={form?.query?.principal ?? ""} placeholder="Principal, e.g. anne" aria-label="Principal" required />
-  <input name="relation" value={form?.query?.relation ?? ""} placeholder="Relation, e.g. read" aria-label="Relation" required />
-  <input name="object" value={form?.query?.object ?? ""} placeholder="Object, e.g. document:d1" aria-label="Object" required />
+  <Suggest name="application" label="Application" placeholder="Application, e.g. crm-prod" field="application" bind:value={application} required />
+  <Suggest name="principal" label="Principal" placeholder="Principal, e.g. anne" field="principal" {application} bind:value={principal} required />
+  <Suggest name="relation" label="Relation" placeholder="Relation, e.g. read" field="relation" {application} bind:value={relation} required />
+  <Suggest name="object" label="Object" placeholder="Object, e.g. document:d1" field="object" {application} bind:value={object} required />
   <button type="submit">Check</button>
 </form>
 

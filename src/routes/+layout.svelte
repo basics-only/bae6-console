@@ -36,7 +36,10 @@
 {#if data.subject}
   <div class="shell">
     <aside class="sidebar">
-      <a class="brand" href="/">bae6<span>.</span>console</a>
+      <a class="brand" href="/">
+        <span class="logo"><img src="/logo.svg" alt="bae6 logo" /></span>
+        <span class="wordmark">bae6<span>.</span>console</span>
+      </a>
       <nav aria-label="Main">
         {#each groups as group (group.name)}
           <div class="nav-group">{group.name}</div>
