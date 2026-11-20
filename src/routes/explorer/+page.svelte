@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import Badge from "$lib/Badge.svelte";
   import Suggest from "$lib/Suggest.svelte";
   let { form } = $props();
@@ -13,7 +14,7 @@
   <p>Can a principal hold a relation on an object? Answered queries are audited.</p>
 </div>
 
-<form method="POST" action="?/check" class="filters">
+<form method="POST" action="?/check" use:enhance class="filters">
   <Suggest name="application" label="Application" placeholder="Application, e.g. crm-prod" field="application" bind:value={application} required />
   <Suggest name="principal" label="Principal" placeholder="Principal, e.g. anne" field="principal" {application} bind:value={principal} required />
   <Suggest name="relation" label="Relation" placeholder="Relation, e.g. read" field="relation" {application} bind:value={relation} required />

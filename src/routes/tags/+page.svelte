@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   let { data, form } = $props();
   const kinds = $derived([
     { kind: "task-types", title: "Task types", hint: "e.g. summarization", tags: data.taskTypes },
@@ -30,14 +31,14 @@
             <tr>
               <td class="id">{t.id}</td>
               <td>
-                <form method="POST" action={`?/${k.kind}`} class="filters">
+                <form method="POST" action={`?/${k.kind}`} use:enhance class="filters">
                   <input type="hidden" name="id" value={t.id} />
                   <input name="name" value={t.name} aria-label={`Name of ${t.id}`} required maxlength="64" />
                   <button type="submit">Rename</button>
                 </form>
               </td>
               <td class="actions">
-                <form method="POST" action={`?/${k.kind}`}>
+                <form method="POST" action={`?/${k.kind}`} use:enhance>
                   <input type="hidden" name="id" value={t.id} />
                   <details>
                     <summary>Remove</summary>
@@ -51,7 +52,7 @@
       </table>
     {/if}
   </div>
-  <form method="POST" action={`?/${k.kind}`} class="filters">
+  <form method="POST" action={`?/${k.kind}`} use:enhance class="filters">
     <input type="hidden" name="create" value="yes" />
     <input name="id" placeholder="Id, {k.hint}" aria-label={`New ${k.title.toLowerCase()} id`} required maxlength="48" />
     <input name="name" placeholder="Name" aria-label={`New ${k.title.toLowerCase()} name`} required maxlength="64" />

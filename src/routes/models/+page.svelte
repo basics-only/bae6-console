@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import Badge from "$lib/Badge.svelte";
   let { data, form } = $props();
   const active = $derived(data.models.find((m: { active: boolean }) => m.active));
@@ -43,7 +44,7 @@
                 {#if active && !m.active}
                   <a href={`?${new URLSearchParams({ application: data.application, from: m.id, to: active.id })}`}>Compare with active</a>
                   {#if data.canWrite}
-                    <form method="POST" action="?/rollback">
+                    <form method="POST" action="?/rollback" use:enhance>
                       <input type="hidden" name="application" value={data.application} />
                       <input type="hidden" name="modelId" value={m.id} />
                       <details>

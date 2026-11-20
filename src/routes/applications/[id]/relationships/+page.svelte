@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   let { data, form } = $props();
 </script>
 
@@ -39,7 +40,7 @@
             <td class="id">{t.object}</td>
             {#if data.canWrite}
               <td class="actions">
-                <form method="POST" action="?/revoke">
+                <form method="POST" action="?/revoke" use:enhance>
                   <input type="hidden" name="subject" value={t.subject} />
                   <input type="hidden" name="relation" value={t.relation} />
                   <input type="hidden" name="object" value={t.object} />
@@ -63,7 +64,7 @@
 
 {#if data.canWrite}
   <h2>Grant</h2>
-  <form method="POST" action="?/grant" class="filters">
+  <form method="POST" action="?/grant" use:enhance class="filters">
     <input name="subject" placeholder="user:anne" aria-label="Subject" required />
     <input name="relation" placeholder="member" aria-label="Grant relation" required />
     <input name="object" placeholder="team:eng" aria-label="Grant object" required />

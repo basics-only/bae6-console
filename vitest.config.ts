@@ -6,7 +6,10 @@ export default defineConfig({
   // Svelte's browser build, so components mount in jsdom.
   resolve: {
     conditions: ["browser"],
-    alias: { $lib: new URL("./src/lib", import.meta.url).pathname },
+    alias: {
+      $lib: new URL("./src/lib", import.meta.url).pathname,
+      "$app/forms": new URL("./vitest.forms.ts", import.meta.url).pathname,
+    },
   },
   test: {
     environment: "jsdom",

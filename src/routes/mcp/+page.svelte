@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import Badge from "$lib/Badge.svelte";
   let { data, form } = $props();
 </script>
@@ -37,14 +38,14 @@
               <td>{v.decidedBy ?? ""}</td>
               <td class="actions">
                 {#if v.state === "pending"}
-                  <form method="POST" action="?/approve">
+                  <form method="POST" action="?/approve" use:enhance>
                     <input type="hidden" name="server" value={s.id} />
                     <input type="hidden" name="version" value={v.version} />
                     <button type="submit">Approve</button>
                   </form>
                 {/if}
                 {#if v.state !== "revoked"}
-                  <form method="POST" action="?/revoke">
+                  <form method="POST" action="?/revoke" use:enhance>
                     <input type="hidden" name="server" value={s.id} />
                     <input type="hidden" name="version" value={v.version} />
                     <details>
