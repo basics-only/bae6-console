@@ -69,7 +69,8 @@ a:hover {
   background: var(--ink-2);
 }
 .brand {
-  display: grid;
+  display: flex;
+  align-items: center;
   gap: 12px;
   color: #fff;
 }
@@ -79,21 +80,16 @@ a:hover {
 }
 .logo {
   display: block;
+  width: 40px;
+  height: 40px;
+  flex: none;
   background: #faf9f9;
-  border-radius: var(--radius);
-  padding: 10px 12px;
-}
-.logo img {
-  display: block;
-  height: 36px;
-  max-width: 100%;
+  border-radius: 10px;
   object-fit: contain;
-  object-position: left center;
 }
 .wordmark {
   font-size: 16px;
   font-weight: 700;
-  padding: 0 4px;
 }
 .wordmark span {
   color: var(--yellow);
