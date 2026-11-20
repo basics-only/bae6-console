@@ -1,5 +1,6 @@
 <script lang="ts">
   import Badge from "$lib/Badge.svelte";
+  import { compact } from "$lib/format";
   let { data } = $props();
   const run = $derived(data.run);
 </script>
@@ -15,7 +16,7 @@
     <dt>Status</dt><dd><Badge value={run.status} />{run.stop ? ` (${run.stop})` : ""}</dd>
     <dt>Submitted by</dt><dd>{run.submitterId}</dd>
     <dt>Attempt</dt><dd>{run.attempt}</dd>
-    <dt>Tokens</dt><dd>{run.tokens}</dd>
+    <dt>Tokens</dt><dd>{compact(run.tokens)}</dd>
     <dt>Created</dt><dd>{run.createdAt}</dd>
     <dt>Started</dt><dd>{run.startedAt ?? ""}</dd>
     <dt>Finished</dt><dd>{run.finishedAt ?? ""}</dd>

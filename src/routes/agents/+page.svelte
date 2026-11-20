@@ -1,5 +1,6 @@
 <script lang="ts">
   import Badge from "$lib/Badge.svelte";
+  import { compact } from "$lib/format";
   let { data } = $props();
   const statuses = ["queued", "running", "finished", "cancelled"];
 </script>
@@ -33,7 +34,7 @@
             <td>{r.model}</td>
             <td><Badge value={r.status} /></td>
             <td>{r.stop ?? ""}</td>
-            <td class="num">{r.tokens}</td>
+            <td class="num">{compact(r.tokens)}</td>
             <td>{r.submitterId}</td>
             <td>{r.createdAt}</td>
           </tr>
