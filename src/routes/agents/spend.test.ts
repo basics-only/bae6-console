@@ -16,6 +16,7 @@ const data = (spend: Record<string, string> | null) => ({
   items: [run],
   nextCursor: null,
   spend,
+  spendFailed: false,
   filterError: null,
 });
 
@@ -25,9 +26,19 @@ test("a run shows its spend next to its tokens", () => {
   expect(screen.getByText("2.4M")).toBeInTheDocument();
 });
 
-test("a run with no recorded calls costs $0.00", () => {
+test("a run with no figure shows a dash, not $0.00", () => {
   render(Page, { data: data({}) } as never);
-  expect(screen.getByText("$0.00")).toBeInTheDocument();
+  expect(screen.getByText("–")).toBeInTheDocument();
+  expect(screen.queryByText("$0.00")).toBeNull();
+});
+
+test("says so when spend could not be loaded", () => {
+  render(Page, {
+    data: { ...data(null), spendFailed: true },
+  } as never);
+  expect(
+    screen.getByText("Spend is unavailable right now."),
+  ).toBeInTheDocument();
 });
 
 test("without an AI gateway there is no spend column", () => {

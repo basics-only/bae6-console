@@ -18,6 +18,7 @@
   <button type="submit">Filter</button>
 </form>
 {#if data.filterError}<p role="alert">{data.filterError}</p>{/if}
+{#if data.spendFailed}<p role="status">Spend is unavailable right now.</p>{/if}
 
 <div class="panel">
   {#if data.items.length === 0}
@@ -35,7 +36,7 @@
             <td><Badge value={r.status} /></td>
             <td>{r.stop ?? ""}</td>
             <td class="num">{compact(r.tokens)}</td>
-            {#if data.spend}<td class="num">{usd(data.spend[r.id] ?? 0)}</td>{/if}
+            {#if data.spend}<td class="num">{r.id in data.spend ? usd(data.spend[r.id]) : "–"}</td>{/if}
             <td>{r.submitterId}</td>
             <td>{r.createdAt}</td>
           </tr>

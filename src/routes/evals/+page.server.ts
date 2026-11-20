@@ -1,6 +1,6 @@
 import { callApi } from "$lib/server/call";
 import { listQuery, RUN_STATUSES } from "$lib/server/paging";
-import { spendByRun } from "$lib/server/spend";
+import { spendByRun } from "$lib/server/spend-api";
 import type { PageServerLoad } from "./$types";
 
 interface EvalRun {
@@ -22,6 +22,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
       items: [] as EvalRun[],
       nextCursor: null,
       spend: null as Record<string, string> | null,
+      spendFailed: false,
       filterError: q.error,
     };
   }
@@ -35,11 +36,11 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     status: q.status,
     items: page.data,
     nextCursor: page.nextCursor,
-    spend: await spendByRun(
+    ...(await spendByRun(
       locals,
       "eval_",
       page.data.map((r) => r.id),
-    ),
+    )),
     filterError: null,
   };
 };
