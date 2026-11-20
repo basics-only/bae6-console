@@ -8,6 +8,14 @@ export interface Distribution {
   data: { topUsersPercent: number; share: number }[];
 }
 
+export interface ConcentrationDay {
+  day: string;
+  users: number;
+  top5: number;
+  top10: number;
+  top20: number;
+}
+
 export const load: PageServerLoad = async ({ locals, url }) => {
   const q = usageQuery(url.searchParams);
   const measure =
@@ -20,12 +28,13 @@ export const load: PageServerLoad = async ({ locals, url }) => {
       series: [] as ({ day: string } & Measures)[],
       groups: [] as ({ key: string } & Measures)[],
       distribution: { users: 0, total: "0", data: [] } as Distribution,
+      concentration: [] as ConcentrationDay[],
       truncated: false,
       filterError: q.error,
     };
   }
   const range = new URLSearchParams({ from: q.from, to: q.to });
-  const [series, summary, distribution] = await Promise.all([
+  const [series, summary, distribution, concentration] = await Promise.all([
     callApi<{ data: ({ day: string } & Measures)[] }>(
       locals,
       `/v1/usage/series?${range}`,
@@ -44,6 +53,12 @@ export const load: PageServerLoad = async ({ locals, url }) => {
       undefined,
       "ai",
     ),
+    callApi<{ data: ConcentrationDay[] }>(
+      locals,
+      `/v1/usage/concentration?${new URLSearchParams({ from: q.from, to: q.to, measure })}`,
+      undefined,
+      "ai",
+    ),
   ]);
   return {
     days: q.days,
@@ -56,6 +71,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
       total: distribution.total,
       data: distribution.data,
     },
+    concentration: concentration.data,
     truncated: summary.truncated,
     filterError: null,
   };

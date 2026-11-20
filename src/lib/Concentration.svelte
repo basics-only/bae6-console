@@ -81,7 +81,6 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    max-width: 640px;
   }
   figcaption {
     min-height: 1.4em;

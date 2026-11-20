@@ -1,6 +1,7 @@
 <script lang="ts">
   import { compact, usd } from "$lib/format";
   import Concentration from "$lib/Concentration.svelte";
+  import ConcentrationTrend from "$lib/ConcentrationTrend.svelte";
   import Sparkline from "$lib/Sparkline.svelte";
   let { data } = $props();
 
@@ -80,11 +81,17 @@
 {/if}
 
 <h2>Concentration across users</h2>
-<Concentration
-  users={data.distribution.users}
-  noun={data.measure === "cost" ? "spend" : "tokens"}
-  points={data.distribution.data}
-/>
+<div class="pair">
+  <Concentration
+    users={data.distribution.users}
+    noun={data.measure === "cost" ? "spend" : "tokens"}
+    points={data.distribution.data}
+  />
+  <ConcentrationTrend
+    noun={data.measure === "cost" ? "spend" : "tokens"}
+    points={data.concentration}
+  />
+</div>
 
 <h2>By {groups.find(([v]) => v === data.by)?.[1].toLowerCase()}</h2>
 <div class="panel">
@@ -146,6 +153,11 @@
   }
   .tiles b {
     font-size: 1.5rem;
+  }
+  .pair {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 12px;
   }
   .plots {
     display: grid;
