@@ -1,5 +1,6 @@
 <script lang="ts">
   import Badge from "$lib/Badge.svelte";
+  import { usd } from "$lib/format";
   let { data } = $props();
   const statuses = ["queued", "running", "finished", "cancelled"];
 </script>
@@ -24,7 +25,7 @@
   {:else}
     <table>
       <thead>
-        <tr><th>Run</th><th>Name</th><th>Model</th><th>Dataset</th><th>Status</th><th class="num">Cases</th><th class="num">Failures</th><th>Created</th></tr>
+        <tr><th>Run</th><th>Name</th><th>Model</th><th>Dataset</th><th>Status</th><th class="num">Cases</th><th class="num">Failures</th>{#if data.spend}<th class="num">Spend</th>{/if}<th>Created</th></tr>
       </thead>
       <tbody>
         {#each data.items as r (r.id)}
@@ -36,6 +37,7 @@
             <td><Badge value={r.status} /></td>
             <td class="num">{r.caseCount}</td>
             <td class="num">{r.summary?.failures ?? ""}</td>
+            {#if data.spend}<td class="num">{usd(data.spend[r.id] ?? 0)}</td>{/if}
             <td>{r.createdAt}</td>
           </tr>
         {/each}

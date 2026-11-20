@@ -1,5 +1,6 @@
 import { callApi } from "$lib/server/call";
 import { listQuery, RUN_STATUSES } from "$lib/server/paging";
+import { spendByRun } from "$lib/server/spend";
 import type { PageServerLoad } from "./$types";
 
 interface AgentRun {
@@ -19,6 +20,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
       status: "",
       items: [] as AgentRun[],
       nextCursor: null,
+      spend: null as Record<string, string> | null,
       filterError: q.error,
     };
   }
@@ -32,6 +34,11 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     status: q.status,
     items: page.data,
     nextCursor: page.nextCursor,
+    spend: await spendByRun(
+      locals,
+      "run_",
+      page.data.map((r) => r.id),
+    ),
     filterError: null,
   };
 };

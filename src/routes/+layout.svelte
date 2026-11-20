@@ -21,6 +21,8 @@
         name: "AI platform",
         show: ["ai", "evals", "agents", "mcp"].some(has),
         links: [
+          has("ai") && ["/usage", "Usage"],
+          has("ai") && ["/tags", "Task types"],
           has("ai") && ["/feedback", "Feedback"],
           has("evals") && ["/evals", "Eval runs"],
           has("agents") && ["/agents", "Agent runs"],
