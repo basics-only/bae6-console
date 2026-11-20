@@ -266,6 +266,14 @@ button {
 input {
   min-width: 14rem;
 }
+select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4.5l4 4 4-4' fill='none' stroke='%23151515' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
 input:hover,
 select:hover {
   border-color: #8f8f8c;
@@ -332,17 +340,21 @@ details button:hover {
   top: 100%;
   left: 0;
   right: 0;
-  margin: 4px 0 0;
-  padding: 4px;
+  margin: 6px 0 0;
+  padding: 6px;
+  max-height: 22rem;
+  overflow-y: auto;
   list-style: none;
   background: var(--surface);
-  border: 1px solid var(--text);
-  border-radius: var(--radius);
-  box-shadow: 0 6px 16px rgb(0 0 0 / 14%);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 6%),
+    0 12px 28px rgb(0 0 0 / 16%);
 }
 .suggest li {
-  padding: 6px 10px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
   overflow-wrap: anywhere;
 }
