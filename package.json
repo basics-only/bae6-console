@@ -9,7 +9,7 @@
     "start": "node build",
     "typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "test": "pnpm run test:server && pnpm run test:components",
-    "test:server": "tsx --test src/lib/server/*.test.ts",
+    "test:server": "tsx --test src/lib/*.test.ts src/lib/server/*.test.ts",
     "test:components": "vitest run",
     "lint": "biome check ."
   },
